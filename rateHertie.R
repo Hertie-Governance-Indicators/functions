@@ -40,9 +40,11 @@ journals_her <- c(journals_pol, journals_soc, journals_pam, journals_law, journa
 dflist <- list()
 for(i in 1:length(faculty$id)) {
   name <- faculty$name[i]
-  year <- predict_h_index(faculty$id[i], journals_her)[1]
-  score <- predict_h_index(faculty$id[i], journals_her)[2]
-  dflist[[i]] <- data.frame(name, year, score)
+  year <- scholar::predict_h_index(faculty$id[i], journals_her)[1]
+  score <- scholar::predict_h_index(faculty$id[i], journals_her)[2]
+  cites <- scholar::get_profile(faculty$id[i])$total_cites
+  publications <- scholar::get_num_articles(faculty$id[i])
+  dflist[[i]] <- data.frame(name, year, cites, publications, score)
 }
 
 potential <- do.call(rbind, lapply(dflist, data.frame, stringsAsFactors=FALSE)) %>%
@@ -55,30 +57,3 @@ ranking <- ggplot2::ggplot(potential, aes(x = name, y = h_index, fill = name)) +
   ggplot2::coord_flip() +
   scale_fill_manual(values = c(paste0(rep("gray50", 17)), "darkred"), guide = F) +
   theme_bw()
-
-
-
-
-# # Define the id
-# id <- 'oNNXGa8AAAAJ'
-#
-# # Get his profile and print his name
-# l <- get_profile(id)
-# l$name
-#
-# # Get his citation history, i.e. citations to his work in a given year
-# get_citation_history(id)
-#
-# # Get his publications (a large data frame)
-# get_publications(id)
-#
-# # Compare Scholars
-# ids <- c("FshROfQAAAAJ", "YFaXmGoAAAAJ")
-#
-# # Get a data frame comparing the number of citations to their work in
-# # a given year
-# compare_scholars(ids)
-#
-# # Compare their career trajectories, based on year of first citation
-# compare_scholar_careers(id)
-
