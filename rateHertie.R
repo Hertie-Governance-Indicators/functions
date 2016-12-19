@@ -53,7 +53,11 @@ potential <- do.call(rbind, lapply(dflist, data.frame, stringsAsFactors=FALSE)) 
 
 ranking <- ggplot2::ggplot(potential, aes(x = name, y = h_index, fill = name)) +
   ggplot2::geom_bar(stat='identity') +
-  xlab("") + ylab("Future Academic Impact") + ggtitle("Who should (not) be the next Dean?") +
+  xlab("") + ylab("") +
+  #ylab("Future Academic Impact") +
+  #ggtitle("Who should (not) be the next Dean?") +
   ggplot2::coord_flip() +
-  scale_fill_manual(values = c(paste0(rep("gray50", 17)), "darkred"), guide = F) +
+  scale_fill_manual(values = paste0(rep("gray50", 18)), guide = F) +
+  #scale_fill_manual(values = c(paste0(rep("gray50", 17)), "darkred"), guide = F) +
   theme_bw()
+ggsave(plot = ranking, filename = "ranking.pdf", device = "pdf", width = 8, height = 6)
