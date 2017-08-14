@@ -25,7 +25,7 @@ fillNa <- function(x) {
 # curl::curl_download("http://ec.europa.eu/budget/remote/fts/dl/export_2015_en.xlsx", 
 #                     destfile = "euFunds/funds2015.xlsx")
 # 
-files = list.files("euFunds/", full.names = T)
+files = list.files("data/euFunds/", full.names = T)
 
 
 
