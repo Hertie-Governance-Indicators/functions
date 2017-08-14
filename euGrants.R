@@ -16,15 +16,15 @@ fillNa <- function(x) {
 
 # Download Files ----------------------------------------------------------
 
-# (need to download 2015 separately as it's in xlsx)
-for(i in 2007:2014) {
-  curl::curl_download(paste0("http://ec.europa.eu/budget/remote/fts/dl/export_",i,"_en.xls"),
-                      destfile = paste0("euFunds/funds",i,".xls"))
-}
-
-curl::curl_download("http://ec.europa.eu/budget/remote/fts/dl/export_2015_en.xlsx", 
-                    destfile = "euFunds/funds2015.xlsx")
-
+# # (need to download 2015 separately as it's in xlsx)
+# for(i in 2007:2014) {
+#   curl::curl_download(paste0("http://ec.europa.eu/budget/remote/fts/dl/export_",i,"_en.xls"),
+#                       destfile = paste0("euFunds/funds",i,".xls"))
+# }
+# 
+# curl::curl_download("http://ec.europa.eu/budget/remote/fts/dl/export_2015_en.xlsx", 
+#                     destfile = "euFunds/funds2015.xlsx")
+# 
 files = list.files("euFunds/", full.names = T)
 
 
@@ -216,6 +216,18 @@ CEU <- universities %>%
                       `Name of beneficiary`, ignore.case = T)) %>% 
   dplyr::summarise(sum(Amount))
 
+Carlo <- df %>% 
+  dplyr::filter(grepl("COLLEGIO CARLO ALBERTO",
+                      `Name of beneficiary`, ignore.case = T)) %>% 
+  dplyr::summarise(sum(Amount)) 
+
+Essex <- df %>% 
+  dplyr::filter(grepl("Grant",
+                      `Funding Type`, ignore.case = T)) %>% 
+  dplyr::filter(grepl("University of Essex",
+                      `Name of beneficiary`, ignore.case = T)) %>% 
+  dplyr::summarise(sum(Amount)) 
+
 #  Think Tanks
 OpenEvidence <- df %>% 
   dplyr::filter(grepl("Open Evidence",
@@ -230,9 +242,55 @@ ispi <- df %>%
   dplyr::filter(grepl("ISTITUTO PER GLI STUDI",
                       `Name of beneficiary`, ignore.case = T)) %>% 
   dplyr::summarise(sum(Amount))
+
 ids <-  df %>% 
   dplyr::filter(grepl("Institute of Development Studies",
                       `Name of beneficiary`, ignore.case = T)) %>% 
+  dplyr::summarise(sum(Amount)) 
+
+pse <- df %>% 
+  dplyr::filter(grepl("FONDATION DE COOPERATION SCIENTIFIQUE ECOLE D",
+                      `Name of beneficiary`, ignore.case = T)) %>% 
+  dplyr::summarise(sum(Amount)) 
+  
+
+# Data Projects
+data <- df %>% 
+  dplyr::filter(grepl("Grant",
+                      `Funding Type`, ignore.case = T)) %>% 
+  dplyr::filter(grepl(paste(department, collapse = "|"),
+                      `Responsible Department`,ignore.case = T)) %>%
+  dplyr::filter(grepl("data",`Subject of grant or contract`, ignore.case = T)) %>% 
+  dplyr::filter(!duplicated(`Subject of grant or contract`))
+  
+sobigdata <- df %>% 
+  dplyr::filter(grepl("SOBIGDATA",
+                      `Subject of grant or contract`, ignore.case = T)) %>% 
+  dplyr::summarise(sum(Amount)) 
+
+sense4us <- df %>% 
+  dplyr::filter(grepl("Data Insights for Policy Makers",
+                      `Subject of grant or contract`, ignore.case = T)) %>% 
+  dplyr::summarise(sum(Amount)) 
+
+quantess <- df %>% 
+  dplyr::filter(grepl("Quantitative Analysis of Textual Data",
+                      `Subject of grant or contract`, ignore.case = T)) %>% 
+  dplyr::summarise(sum(Amount)) 
+cessda <- df %>% 
+  dplyr::filter(grepl("cessda",
+                      `Subject of grant or contract`, ignore.case = T)) %>% 
+  dplyr::summarise(sum(Amount)) 
+
+datactive <-df %>% 
+  dplyr::filter(grepl("DATACTIVE",
+                      `Subject of grant or contract`, ignore.case = T)) %>% 
+  dplyr::summarise(sum(Amount)) 
+  
+
+DELECA <- df %>% 
+  dplyr::filter(grepl("leadership capacity",
+                      `Subject of grant or contract`, ignore.case = T)) %>% 
   dplyr::summarise(sum(Amount)) 
   
 
